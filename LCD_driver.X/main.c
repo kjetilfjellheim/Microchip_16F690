@@ -31,16 +31,28 @@ void setValue(unsigned char);
 void latch();
 
 void main(void) {
-    ConfigureOscillator();
-
+    /**
+     * Initalize controller.
+     */
     InitApp();
-
+    /**
+     * First value.
+     */
     unsigned char firstVal = 0;
+    /**
+     * Second value.
+     */
     unsigned char secondVal = 0;
 
-    while (1) {        
+    while (1) {   
+        /**
+         * Set values.
+         */
         doChange(firstVal, SECOND_ADDRESS);
         doChange(secondVal, FIRST_ADDRESS);
+        /**
+         * Count
+         */
         firstVal += 1;        
         if (firstVal == 10) {
             secondVal += 1;
@@ -50,19 +62,31 @@ void main(void) {
             }
         }
         /**
-         * Wait one second.
-         *          */
+         * Wait one second.         
+         */
         __delay_ms(1000);
     }
 
 }
 
 void doChange(unsigned char val, unsigned char addr) {
-    setAddress(addr);    
+    /**
+     * Set on output.
+     */
+    setAddress(addr);
+    /**
+     * Sets value on output. 
+     */
     setValue(val);
+    /**
+     * Set the values on the driver.
+     */
     latch();
 }
 
+/**
+ * Set address. This also holds the latch HIGH.
+ */
 void setAddress(unsigned char addr) {
     unsigned char val = addr;
     val = val << 6;
@@ -71,6 +95,9 @@ void setAddress(unsigned char addr) {
     __delay_us(WAIT_TIME);
 }
 
+/**
+ * Set the value on the output.
+ */
 void setValue(unsigned char val) {
     unsigned char output = val;
     output = output << 4;
@@ -78,6 +105,9 @@ void setValue(unsigned char val) {
     __delay_us(WAIT_TIME);
 }
 
+/**
+ * Latch the value on the LCD driver.
+ */
 void latch() {
     PORTB = PORTB & 0b11101111;
     __delay_us(WAIT_TIME);
