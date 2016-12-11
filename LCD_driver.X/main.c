@@ -26,8 +26,17 @@ const unsigned char SECOND_ADDRESS = 2;
  * Sets value.
  */
 void doChange(unsigned char, unsigned char);
+/**
+ * Set address.
+ */
 void setAddress(unsigned char);
+/**
+ * Set value
+ */
 void setValue(unsigned char);
+/*
+ * LAtch value on address.
+ */
 void latch();
 
 void main(void) {
